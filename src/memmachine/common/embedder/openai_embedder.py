@@ -51,15 +51,20 @@ class OpenAIEmbedder(Embedder):
                 If configuration argument values are of incorrect type.
         """
         super().__init__()
-
-        self._model = config.get("model", "text-embedding-3-small")
-
+        self._model = config.get("model_name", "text-embedding-3-small")
+        base_url = config.get("base_url")
         api_key = config.get("api_key")
+        vendor = config.get("model_vendor", "openai")
         if api_key is None:
             raise ValueError("Embedder API key must be provided")
-
+        logger.info(
+            "Initializing OpenAIEmbedder with vendor: %s model: %s, base_url: %s",
+            vendor,
+            self._model,
+            base_url,
+        )
         self._client = openai.AsyncOpenAI(
-            api_key=api_key, base_url=config.get("base_url")
+            api_key=api_key, base_url=base_url
         )
 
         metrics_factory = config.get("metrics_factory")
