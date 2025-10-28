@@ -74,6 +74,7 @@ class OpenAIEmbedder(Embedder):
         defHeaders = {}
         if config.get("bearer_token"):
             defHeaders["Authorization"] = f"Bearer {config.get('bearer_token')}"
+            logger.debug(f"Using bearer token {config.get('bearer_token')} for OpenAI requests")
 
         # https://platform.openai.com/docs/guides/embeddings#embedding-models
         dimensions = config.get("dimensions")
